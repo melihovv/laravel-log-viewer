@@ -35,6 +35,5 @@
     "psr-4": {
       "Melihovv\\LaravelLogViewer\\Tests\\": "tests/"
     }
-  },
-  "minimum-stability": "dev"
+  }
 }
