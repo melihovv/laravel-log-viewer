@@ -1,0 +1,27 @@
+{
+  "name": "laravel-log-viewer",
+  "version": "1.0.0-semantically-released",
+  "scripts": {
+    "semantic-release": "semantic-release pre && semantic-release post"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melihovv/laravel-log-viewer.git"
+  },
+  "author": "Alexander Melihov <amelihovv@ya.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/melihovv/laravel-log-viewer/issues"
+  },
+  "homepage": "https://github.com/melihovv/laravel-log-viewer#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^1.2.0",
+    "semantic-release": "^6.3.2",
+    "validate-commit-msg": "^2.8.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
