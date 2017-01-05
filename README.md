@@ -2,6 +2,7 @@ Laravel log viewer
 ==================
 
 [![Build Status](https://travis-ci.org/melihovv/laravel-log-viewer.svg?branch=master)](https://travis-ci.org/melihovv/laravel-log-viewer)
+[![styleci](https://styleci.io/repos/78041678/shield)](https://styleci.io/repos/78041678)
 
 Small log viewer for laravel. Looks like this:
 
