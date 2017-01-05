@@ -1,0 +1,10 @@
+preset: recommended
+risky: true
+linting: true
+enabled:
+  - concat_with_spaces
+disabled:
+  - align_double_arrow
+  - phpdoc_to_comment
+  - phpdoc_var_without_name
+  - concat_without_spaces
