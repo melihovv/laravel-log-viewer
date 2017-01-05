@@ -13,12 +13,15 @@ notifications:
         on_success: never
         on_failure: always
 
-before_script:
+before_install:
+  - nvm install node
   - travis_retry composer self-update
+
+install:
   - travis_retry composer install --no-interaction
-  - cd admin
+
+before_script:
   - npm install
-  - cd ..
 
 script:
   - vendor/bin/phpunit
