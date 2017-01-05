@@ -10,24 +10,28 @@ class LaravelLogViewer
 {
     /**
      * Base directory.
+     *
      * @var string
      */
     protected $baseDir;
 
     /**
      * Current directory.
+     *
      * @var string
      */
     protected $currentDir;
 
     /**
      * Current file.
+     *
      * @var string
      */
     protected $currentFile;
 
     /**
      * Max file size.
+     *
      * @var int
      */
     protected $maxFileSize;
@@ -56,7 +60,7 @@ class LaravelLogViewer
 
     /**
      * @param string $baseDir
-     * @param int $maxFileSize
+     * @param int    $maxFileSize
      */
     public function __construct($baseDir, $maxFileSize)
     {
@@ -67,6 +71,7 @@ class LaravelLogViewer
 
     /**
      * Returns logs from current file.
+     *
      * @return array|null
      */
     public function getLogsFromCurrentFile()
@@ -76,7 +81,7 @@ class LaravelLogViewer
         }
 
         if (File::size($this->currentFile) > $this->maxFileSize) {
-            return null;
+            return;
         }
 
         $datePattern = '\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}';
@@ -111,7 +116,7 @@ class LaravelLogViewer
                 $inFile = substr($matches[5], 4);
             }
 
-            $logs[] = (object)[
+            $logs[] = (object) [
                 'context' => $matches[2],
                 'level' => $level,
                 'levelClass' => static::$levelsClasses[$level],
@@ -127,6 +132,7 @@ class LaravelLogViewer
 
     /**
      * Returns content (files and folders) of current folder.
+     *
      * @return array
      */
     public function getCurrentDirectoryContent()
@@ -134,7 +140,7 @@ class LaravelLogViewer
         $content = File::glob("$this->currentDir/*");
 
         $content = array_map(function ($item) {
-            return (object)[
+            return (object) [
                 'path' => $this->getPathRelativeToBaseDir($item),
                 'name' => Str::substr(
                     $item,
@@ -158,6 +164,7 @@ class LaravelLogViewer
 
     /**
      * @param string $baseDir
+     *
      * @return $this
      */
     public function setBaseDirectory($baseDir)
@@ -169,6 +176,7 @@ class LaravelLogViewer
 
     /**
      * Absolute path to current directory.
+     *
      * @return string
      */
     public function getCurrentDirectory()
@@ -186,8 +194,10 @@ class LaravelLogViewer
 
     /**
      * @param string $directory Relative path to directory from base path.
-     * @return $this
+     *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function setCurrentDirectory($directory)
     {
@@ -218,7 +228,9 @@ class LaravelLogViewer
 
     /**
      * Returns relative path to base directory.
+     *
      * @param string $path Absolute path.
+     *
      * @return string
      */
     protected function getPathRelativeToBaseDir($path)
@@ -228,8 +240,10 @@ class LaravelLogViewer
 
     /**
      * @param string $file Relative path to file from base directory.
-     * @return $this
+     *
      * @throws InvalidArgumentException
+     *
+     * @return $this
      */
     public function setCurrentFile($file)
     {
@@ -246,7 +260,9 @@ class LaravelLogViewer
 
     /**
      * Checks if passed path is inside base directory.
+     *
      * @param string $path Absolute path.
+     *
      * @throws InvalidArgumentException
      */
     protected function checkIfPathInBaseDir($path)
@@ -260,9 +276,12 @@ class LaravelLogViewer
 
     /**
      * Normalizes path.
+     *
      * @param string $path Absolute path.
-     * @return string Normalized path.
+     *
      * @throws InvalidArgumentException
+     *
+     * @return string Normalized path.
      */
     protected function normalizePath($path)
     {
@@ -277,6 +296,7 @@ class LaravelLogViewer
 
     /**
      * Returns path to parent of current directory.
+     *
      * @return string
      */
     public function getRelativePathToCurrentDirectoryParent()
@@ -292,6 +312,7 @@ class LaravelLogViewer
 
     /**
      * Returns true if current directory is also base directory.
+     *
      * @return bool
      */
     public function isCurrentDirectoryBase()

@@ -11,4 +11,3 @@ class LaravelLogViewer extends Facade
         return 'log-viewer';
     }
 }
-

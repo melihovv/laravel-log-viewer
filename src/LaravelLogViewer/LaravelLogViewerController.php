@@ -17,6 +17,7 @@ class LaravelLogViewerController
                 return Response::download(\LogViewer::getCurrentFile());
             } elseif (Request::has('delete')) {
                 File::delete(\LogViewer::getCurrentFile());
+
                 return app()->make('redirect')->to(Request::url());
             }
         } elseif (Request::has('dir')) {
@@ -27,8 +28,7 @@ class LaravelLogViewerController
             'logs' => \LogViewer::getLogsFromCurrentFile(),
             'dirItems' => \LogViewer::getCurrentDirectoryContent(),
             'currentFile' => \LogViewer::getCurrentFileRelativeToBaseDir(),
-            'parentDirPath' =>
-                \LogViewer::getRelativePathToCurrentDirectoryParent(),
+            'parentDirPath' => \LogViewer::getRelativePathToCurrentDirectoryParent(),
             'isCurrentDirectoryBase' => \LogViewer::isCurrentDirectoryBase(),
         ]);
     }
