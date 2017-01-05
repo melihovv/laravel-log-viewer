@@ -1,6 +1,8 @@
 Laravel log viewer
 ==================
 
+[![Build Status](https://travis-ci.org/melihovv/laravel-log-viewer.svg?branch=master)](https://travis-ci.org/melihovv/laravel-log-viewer)
+
 Small log viewer for laravel. Looks like this:
 
 ![screenshot](https://cloud.githubusercontent.com/assets/8608721/21664637/e34b26e2-d2f8-11e6-8a7e-721f0009adb4.png)
