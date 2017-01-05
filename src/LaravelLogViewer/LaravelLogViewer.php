@@ -235,8 +235,7 @@ class LaravelLogViewer
      */
     protected function getPathRelativeToBaseDir($path)
     {
-        $a = Str::substr($path, Str::length($this->baseDir));
-        return $a;
+        return Str::substr($path, Str::length($this->baseDir));
     }
 
     /**
