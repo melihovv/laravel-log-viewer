@@ -71,7 +71,7 @@
                 @foreach($dirItems as $item)
                     @if ($item->isFile)
                         <a href="?file={{ base64_encode($item->path) }}"
-                           class="list-group-item{{ $currentFile === $item->name ? ' llv-active' : '' }}">
+                           class="list-group-item{{ $currentFile === $item->path ? ' llv-active' : '' }}">
                             {{ $item->name }}
                         </a>
                     @elseif ($item->isDir)

@@ -154,19 +154,19 @@ HERE
                 },
                 [
                     (object) [
-                        'path' => '/log1.txt',
+                        'path' => DIRECTORY_SEPARATOR . 'log1.txt',
                         'name' => 'log1.txt',
                         'isFile' => true,
                         'isDir' => false,
                     ],
                     (object) [
-                        'path' => '/log2.txt',
+                        'path' => DIRECTORY_SEPARATOR . 'log2.txt',
                         'name' => 'log2.txt',
                         'isFile' => true,
                         'isDir' => false,
                     ],
                     (object) [
-                        'path' => '/subfolder',
+                        'path' => DIRECTORY_SEPARATOR . 'subfolder',
                         'name' => 'subfolder',
                         'isFile' => false,
                         'isDir' => true,

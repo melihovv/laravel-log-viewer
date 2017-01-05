@@ -137,7 +137,7 @@ class LaravelLogViewer
      */
     public function getCurrentDirectoryContent()
     {
-        $content = File::glob("$this->currentDir/*");
+        $content = File::glob($this->currentDir . DIRECTORY_SEPARATOR . '*');
 
         $content = array_map(function ($item) {
             return (object) [
@@ -235,7 +235,8 @@ class LaravelLogViewer
      */
     protected function getPathRelativeToBaseDir($path)
     {
-        return Str::substr($path, Str::length($this->baseDir));
+        $a = Str::substr($path, Str::length($this->baseDir));
+        return $a;
     }
 
     /**
