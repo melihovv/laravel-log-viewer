@@ -8,6 +8,11 @@ php:
 
 sudo: false
 
+notifications:
+    email:
+        on_success: never
+        on_failure: always
+
 before_install:
   - travis_retry composer self-update
 
