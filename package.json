@@ -6,7 +6,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/melihovv/laravel-log-viewer.git"
+    "url": "https://github.com/melihovv/laravel-log-viewer.git"
   },
   "author": "Alexander Melihov <amelihovv@ya.ru>",
   "license": "MIT",
