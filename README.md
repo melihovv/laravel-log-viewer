@@ -16,7 +16,7 @@ Install
 -------
 Install via composer
 ```
-composer require rap2hpoutre/laravel-log-viewer
+composer require melihovv/laravel-log-viewer
 ```
 
 Add Service Provider to `config/app.php` in `providers` section
