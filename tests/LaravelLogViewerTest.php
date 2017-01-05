@@ -46,6 +46,7 @@ class LaravelLogViewerTest extends TestCase
 
     /**
      * @dataProvider getLogsFromCurrentFileProvider
+     *
      * @param callable $setupCb
      * @param callable $assertCb
      */
@@ -88,7 +89,7 @@ class LaravelLogViewerTest extends TestCase
             'success' => [
                 function ($testcase) {
                     \LogViewer::setCurrentFile('/laravel.log');
-                    \File::append(self::BASEDIR . '/laravel.log', <<<HERE
+                    \File::append(self::BASEDIR . '/laravel.log', <<<'HERE'
 [2017-01-04 05:21:25] local.INFO: hi
 not match
 [2017-01-04 05:22:25] production.ERROR: ho in Main.php:48
@@ -97,7 +98,7 @@ HERE
                 },
                 function ($testcase, $logs) {
                     $testcase->assertEquals([
-                        (object)[
+                        (object) [
                             'context' => 'production',
                             'level' => 'error',
                             'levelClass' => 'danger',
@@ -106,7 +107,7 @@ HERE
                             'text' => 'ho',
                             'inFile' => 'Main.php:48',
                         ],
-                        (object)[
+                        (object) [
                             'context' => 'local',
                             'level' => 'info',
                             'levelClass' => 'info',
@@ -123,7 +124,7 @@ HERE
 
     /**
      * @param callable $setupCb
-     * @param array $expected
+     * @param array    $expected
      * @dataProvider getCurrentDirectoryContentProvider
      */
     public function testGetCurrentDirectoryContent(
@@ -152,19 +153,19 @@ HERE
                     \File::makeDirectory(self::BASEDIR . '/subfolder');
                 },
                 [
-                    (object)[
+                    (object) [
                         'path' => '/log1.txt',
                         'name' => 'log1.txt',
                         'isFile' => true,
                         'isDir' => false,
                     ],
-                    (object)[
+                    (object) [
                         'path' => '/log2.txt',
                         'name' => 'log2.txt',
                         'isFile' => true,
                         'isDir' => false,
                     ],
-                    (object)[
+                    (object) [
                         'path' => '/subfolder',
                         'name' => 'subfolder',
                         'isFile' => false,
@@ -177,7 +178,7 @@ HERE
 
     /**
      * @param callable $setupCb
-     * @param string $currentDir
+     * @param string   $currentDir
      * @param callable $assertCb
      * @dataProvider setCurrentDirectoryProvider
      */
@@ -235,7 +236,7 @@ HERE
 
     /**
      * @param callable $setupCb
-     * @param string $currentFile
+     * @param string   $currentFile
      * @param callable $assertCb
      * @dataProvider setCurrentFileProvider
      */
@@ -332,6 +333,7 @@ HERE
 
     /**
      * @dataProvider getRelativePathToCurrentDirectoryParentProvider
+     *
      * @param callable $assertCb
      */
     public function testGetRelativePathToCurrentDirectoryParent(
@@ -349,7 +351,7 @@ HERE
                         DIRECTORY_SEPARATOR,
                         \LogViewer::getRelativePathToCurrentDirectoryParent()
                     );
-                }
+                },
             ],
             'cur dir does not equals base dir: subdir' => [
                 function ($testcase) {
@@ -360,7 +362,7 @@ HERE
                         DIRECTORY_SEPARATOR,
                         \LogViewer::getRelativePathToCurrentDirectoryParent()
                     );
-                }
+                },
             ],
             'cur dir does not equals base dir: subsubdir' => [
                 function ($testcase) {
@@ -371,13 +373,14 @@ HERE
                         DIRECTORY_SEPARATOR . 'subdir',
                         \LogViewer::getRelativePathToCurrentDirectoryParent()
                     );
-                }
+                },
             ],
         ];
     }
 
     /**
      * @dataProvider isCurrentDirectoryBaseProvider
+     *
      * @param callable $assertCb
      */
     public function testIsCurrentDirectoryBase(callable $assertCb)
@@ -391,7 +394,7 @@ HERE
             'true' => [
                 function ($testcase) {
                     $testcase->assertTrue(\LogViewer::isCurrentDirectoryBase());
-                }
+                },
             ],
             'false' => [
                 function ($testcase) {
@@ -399,7 +402,7 @@ HERE
                     \LogViewer::setCurrentDirectory('/subdir');
 
                     $testcase->assertFalse(\LogViewer::isCurrentDirectoryBase());
-                }
+                },
             ],
         ];
     }
