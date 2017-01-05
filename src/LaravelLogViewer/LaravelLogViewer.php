@@ -238,6 +238,9 @@ class LaravelLogViewer
         $this->checkIfPathInBaseDir($file);
         $this->currentFile = $file;
 
+        $dir = File::dirname($file);
+        $this->currentDir = $dir;
+
         return $this;
     }
 

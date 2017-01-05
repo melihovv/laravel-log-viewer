@@ -253,7 +253,7 @@ HERE
         return [
             'success' => [
                 function ($testcase) {
-                    \File::put(self::BASEDIR . '/log.txt', '');
+                    File::put(self::BASEDIR . '/log.txt', '');
                 },
                 '/log.txt',
                 function ($testcase) {
@@ -261,15 +261,37 @@ HERE
                         self::BASEDIR . DIRECTORY_SEPARATOR . 'log.txt',
                         \LogViewer::getCurrentFile()
                     );
+                    $testcase->assertEquals(
+                        self::BASEDIR,
+                        \LogViewer::getCurrentDirectory()
+                    );
+                },
+            ],
+            'current directory must be directory of current file' => [
+                function ($testcase) {
+                    File::makeDirectory(self::BASEDIR . '/subfolder');
+                    File::put(self::BASEDIR . '/subfolder/log.txt', '');
+                },
+                '/subfolder/log.txt',
+                function ($testcase) {
+                    $testcase->assertEquals(
+                        self::BASEDIR . DIRECTORY_SEPARATOR . 'subfolder'
+                        . DIRECTORY_SEPARATOR . 'log.txt',
+                        \LogViewer::getCurrentFile()
+                    );
+                    $testcase->assertEquals(
+                        self::BASEDIR . DIRECTORY_SEPARATOR . 'subfolder',
+                        \LogViewer::getCurrentDirectory()
+                    );
                 },
             ],
             'file is not inside base directory' => [
                 function ($testcase) {
                     $baseDir = self::BASEDIR . DIRECTORY_SEPARATOR . 'newBaseDir';
-                    \File::makeDirectory($baseDir);
+                    File::makeDirectory($baseDir);
                     \LogViewer::setBaseDirectory($baseDir);
 
-                    \File::put("$baseDir/../notInSubfolder.log", '');
+                    File::put("$baseDir/../notInSubfolder.log", '');
 
                     $testcase->expectException(InvalidArgumentException::class);
                 },
