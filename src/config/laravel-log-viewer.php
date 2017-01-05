@@ -2,5 +2,5 @@
 
 return [
     'base_dir' => storage_path('logs'),
-    'max_file_size' => 52428800, // 50 mb.
+    'max_file_size' => 10485760, // 10 mb.
 ];
