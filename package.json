@@ -2,7 +2,8 @@
   "name": "laravel-log-viewer",
   "version": "1.0.0-semantically-released",
   "scripts": {
-    "semantic-release": "semantic-release pre && semantic-release post"
+    "semantic-release": "semantic-release pre && semantic-release post",
+    "commitmsg": "validate-commit-msg"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,7 @@
   "homepage": "https://github.com/melihovv/laravel-log-viewer#readme",
   "devDependencies": {
     "cz-conventional-changelog": "^1.2.0",
+    "husky": "^0.12.0",
     "semantic-release": "^6.3.2",
     "validate-commit-msg": "^2.8.2"
   },
