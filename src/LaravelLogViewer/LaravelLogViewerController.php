@@ -10,27 +10,29 @@ class LaravelLogViewerController
 {
     public function index()
     {
+        $viewer = app()->make('log-viewer');
+
         if (Request::has('file')) {
-            \LogViewer::setCurrentFile(base64_decode(Request::get('file')));
+            $viewer->setCurrentFile(base64_decode(Request::get('file')));
 
             if (Request::has('download')) {
-                return Response::download(\LogViewer::getCurrentFile());
+                return Response::download($viewer->getCurrentFile());
             } elseif (Request::has('delete')) {
-                File::delete(\LogViewer::getCurrentFile());
+                File::delete($viewer->getCurrentFile());
 
                 return app()->make('redirect')->to(Request::url());
             }
         } elseif (Request::has('dir')) {
-            \LogViewer::setCurrentDirectory(base64_decode(Request::get('dir')));
+            $viewer->setCurrentDirectory(base64_decode(Request::get('dir')));
         }
 
         return app('view')->make('laravel-log-viewer::log', [
-            'logs' => \LogViewer::getLogsFromCurrentFile(),
-            'dirItems' => \LogViewer::getCurrentDirectoryContent(),
-            'currentFile' => \LogViewer::getCurrentFileRelativeToBaseDir(),
+            'logs' => $viewer->getLogsFromCurrentFile(),
+            'dirItems' => $viewer->getCurrentDirectoryContent(),
+            'currentFile' => $viewer->getCurrentFileRelativeToBaseDir(),
             'parentDirPath' =>
-                \LogViewer::getRelativePathToCurrentDirectoryParent(),
-            'isCurrentDirectoryBase' => \LogViewer::isCurrentDirectoryBase(),
+                $viewer->getRelativePathToCurrentDirectoryParent(),
+            'isCurrentDirectoryBase' => $viewer->isCurrentDirectoryBase(),
         ]);
     }
 }
