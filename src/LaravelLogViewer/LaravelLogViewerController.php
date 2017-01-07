@@ -33,6 +33,7 @@ class LaravelLogViewerController
             'parentDirPath' =>
                 $viewer->getRelativePathToCurrentDirectoryParent(),
             'isCurrentDirectoryBase' => $viewer->isCurrentDirectoryBase(),
+            'parentDirs' => $viewer->getParentDirectories(),
         ]);
     }
 }

@@ -62,6 +62,14 @@
                 <i>by <a href="https://github.com/melihovv">@melihovv</a></i>
             </p>
 
+            @if (count($parentDirs))
+                <ul class="breadcrumb">
+                    @foreach ($parentDirs as $dir)
+                        <a href="?dir={{ base64_encode($dir) }}"><li>{{ $dir }}</li></a>
+                    @endforeach
+                </ul>
+            @endif
+
             <div class="list-group">
                 @if ($parentDirPath && !$isCurrentDirectoryBase)
                     <a href="?dir={{ base64_encode($parentDirPath) }}"

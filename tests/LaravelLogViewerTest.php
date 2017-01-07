@@ -406,4 +406,56 @@ HERE
             ],
         ];
     }
+
+    /**
+     * @dataProvider getParentDirectoriesProvider
+     * @param callable $setupCb
+     * @param callable $assertCb
+     */
+    public function testGetParentDirectories(
+        callable $setupCb,
+        callable $assertCb
+    ) {
+        $setupCb($this);
+
+        $dirs = \LogViewer::getParentDirectories();
+
+        $assertCb($this, $dirs);
+    }
+
+    public function getParentDirectoriesProvider()
+    {
+        return [
+            'current directory is base directory' => [
+                function($testcase) {
+                },
+                function($testcase, $dirs) {
+                    $testcase->assertEquals([], $dirs);
+                },
+            ],
+            'current directory is one level down of base directory' => [
+                function($testcase) {
+                    File::makeDirectory(self::BASEDIR . '/subdir');
+                    \LogViewer::setCurrentDirectory('/subdir');
+                },
+                function($testcase, $dirs) {
+                    $testcase->assertEquals([
+                        DIRECTORY_SEPARATOR,
+                    ], $dirs);
+                },
+            ],
+            'current directory is two level down of base directory' => [
+                function($testcase) {
+                    File::makeDirectory(self::BASEDIR . '/subdir/subsubdir', 0755, true);
+                    \LogViewer::setCurrentDirectory('/subdir/subsubdir');
+                },
+                function($testcase, $dirs) {
+                    $testcase->assertEquals([
+                        DIRECTORY_SEPARATOR,
+                        DIRECTORY_SEPARATOR . 'subdir',
+                    ], $dirs);
+                },
+            ],
+        ];
+    }
 }

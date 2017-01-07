@@ -319,4 +319,27 @@ class LaravelLogViewer
     {
         return $this->currentDir === $this->baseDir;
     }
+
+    /**
+     * Returns parent directories of current directory.
+     *
+     * @return array
+     */
+    public function getParentDirectories()
+    {
+        if ($this->isCurrentDirectoryBase()) {
+            return [];
+        }
+
+        $currentDir = $this->currentDir;
+        $dirs = [];
+        do {
+            $dir = dirname($currentDir);
+            $dirs[] = $this->getPathRelativeToBaseDir($dir)
+                ?: DIRECTORY_SEPARATOR;
+            $currentDir = $dir;
+        } while ($dir !== $this->baseDir);
+
+        return array_reverse($dirs);
+    }
 }
