@@ -38,6 +38,7 @@
     }
   },
   "scripts": {
+    "phpunit": "phpunit",
     "phpcs": "phpcs --standard=./phpcs-rules.xml --encoding=utf-8 src/LaravelLogViewer",
     "phpcbf": "phpcbf --standard=./phpcs-rules.xml --encoding=utf-8 src/LaravelLogViewer"
   }

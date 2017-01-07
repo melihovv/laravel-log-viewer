@@ -24,7 +24,7 @@ before_script:
   - npm install
 
 script:
-  - vendor/bin/phpunit
+  - composer run phpunit
   - composer run phpcs
 
 after_success:
