@@ -25,6 +25,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit
+  - composer run phpcs
 
 after_success:
   - npm run semantic-release
