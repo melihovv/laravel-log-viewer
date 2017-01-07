@@ -409,6 +409,7 @@ HERE
 
     /**
      * @dataProvider getParentDirectoriesProvider
+     *
      * @param callable $setupCb
      * @param callable $assertCb
      */
@@ -427,29 +428,29 @@ HERE
     {
         return [
             'current directory is base directory' => [
-                function($testcase) {
+                function ($testcase) {
                 },
-                function($testcase, $dirs) {
+                function ($testcase, $dirs) {
                     $testcase->assertEquals([], $dirs);
                 },
             ],
             'current directory is one level down of base directory' => [
-                function($testcase) {
+                function ($testcase) {
                     File::makeDirectory(self::BASEDIR . '/subdir');
                     \LogViewer::setCurrentDirectory('/subdir');
                 },
-                function($testcase, $dirs) {
+                function ($testcase, $dirs) {
                     $testcase->assertEquals([
                         DIRECTORY_SEPARATOR,
                     ], $dirs);
                 },
             ],
             'current directory is two level down of base directory' => [
-                function($testcase) {
+                function ($testcase) {
                     File::makeDirectory(self::BASEDIR . '/subdir/subsubdir', 0755, true);
                     \LogViewer::setCurrentDirectory('/subdir/subsubdir');
                 },
-                function($testcase, $dirs) {
+                function ($testcase, $dirs) {
                     $testcase->assertEquals([
                         DIRECTORY_SEPARATOR,
                         DIRECTORY_SEPARATOR . 'subdir',
