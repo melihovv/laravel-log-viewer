@@ -26,6 +26,7 @@ before_script:
 script:
   - composer run phpunit
   - composer run phpcs
+  - composer run phpmd
 
 after_success:
   - npm run semantic-release
