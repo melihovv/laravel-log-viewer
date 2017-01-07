@@ -55,3 +55,11 @@ If you want customize package view
 ```
 php artisan vendor:publish --tag=views
 ```
+
+Development
+-----------
+
+- `yarn`
+- `node node_modules/husky/bin/install`
+- set up [commitizen](https://github.com/commitizen/cz-cli) and then do commits
+by typing `git cz`
