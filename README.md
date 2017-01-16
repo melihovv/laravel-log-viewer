@@ -31,11 +31,6 @@ Add Service Provider to `config/app.php` in `providers` section
 Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 ```
 
-Add facade to `config/app.php` in `aliases` section
-```php
-'LogViewer' => Melihovv\LaravelLogViewer\Facades\LaravelLogViewer::class,
-```
-
 Add a route in your web routes file:
 ```php 
 Route::get('logs', '\Melihovv\LaravelLogViewer\LaravelLogViewerController@index');
