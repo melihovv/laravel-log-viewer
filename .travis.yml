@@ -14,19 +14,12 @@ notifications:
         on_failure: always
 
 before_install:
-  - nvm install node
   - travis_retry composer self-update
 
 install:
   - travis_retry composer install --no-interaction
 
-before_script:
-  - npm install
-
 script:
   - composer run phpunit
   - composer run phpcs
   - composer run phpmd
-
-after_success:
-  - npm run semantic-release
