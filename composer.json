@@ -43,5 +43,12 @@
     "phpmd": "phpmd src/LaravelLogViewer text ./phpmd-rules.xml",
     "phpcs": "phpcs --standard=./phpcs-rules.xml --encoding=utf-8 src/LaravelLogViewer",
     "phpcbf": "phpcbf --standard=./phpcs-rules.xml --encoding=utf-8 src/LaravelLogViewer"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Melihovv\\LaravelLogViewer\\LaravelLogViewerServiceProvider"
+      ]
+    }
   }
 }

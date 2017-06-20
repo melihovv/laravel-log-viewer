@@ -25,7 +25,9 @@ Install via composer
 composer require melihovv/laravel-log-viewer
 ```
 
-Add Service Provider to `config/app.php` in `providers` section
+
+Add Service Provider to `config/app.php` in `providers` section (it is optional
+step if you use laravel>=5.5 with package auto discovery feature)
 ```php
 Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 ```
