@@ -51,3 +51,8 @@ If you want customize package view
 ```
 php artisan vendor:publish --tag=views
 ```
+
+## Credits
+
+- [Alexander Melihov](https://github.com/melihovv)
+- [All contributors](https://github.com/melihovv/laravel-log-viewer/graphs/contributors)
