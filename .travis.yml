@@ -28,7 +28,7 @@ before_install:
 
 install:
   - travis_retry composer install --no-suggest --prefer-dist -n -o
-  - composer require --dev satooshi/php-coveralls=dev-master
+  - composer require --dev satooshi/php-coveralls
 
 script:
   - composer run phpunit -- --coverage-clover ./tests/logs/clover.xml
