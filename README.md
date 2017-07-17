@@ -3,7 +3,7 @@ Laravel log viewer
 
 [![Build Status](https://travis-ci.org/melihovv/laravel-log-viewer.svg?branch=master)](https://travis-ci.org/melihovv/laravel-log-viewer)
 [![styleci](https://styleci.io/repos/78041678/shield)](https://styleci.io/repos/78041678)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7928897b-80ea-4249-9306-2ee3591fd24c/small.png)](https://insight.sensiolabs.com/projects/7928897b-80ea-4249-9306-2ee3591fd24c)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7928897b-80ea-4249-9306-2ee3591fd24c/mini.png)](https://insight.sensiolabs.com/projects/7928897b-80ea-4249-9306-2ee3591fd24c)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/melihovv/laravel-log-viewer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/melihovv/laravel-log-viewer/?branch=master)
 [![Packagist](https://img.shields.io/packagist/v/melihovv/laravel-log-viewer.svg)](https://packagist.org/packages/melihovv/laravel-log-viewer)
 [![Packagist](https://poser.pugx.org/melihovv/laravel-log-viewer/d/total.svg)](https://packagist.org/packages/melihovv/laravel-log-viewer)
