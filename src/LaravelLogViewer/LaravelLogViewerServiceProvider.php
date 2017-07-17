@@ -33,8 +33,10 @@ class LaravelLogViewerServiceProvider extends ServiceProvider
         );
 
         $this->app->bind('log-viewer', function () {
+            $baseDir = Config::get('laravel-log-viewer.base_dir');
+
             return new LaravelLogViewer(
-                Config::get('laravel-log-viewer.base_dir'),
+                $baseDir ?: storage_path('logs'),
                 Config::get('laravel-log-viewer.max_file_size')
             );
         });
