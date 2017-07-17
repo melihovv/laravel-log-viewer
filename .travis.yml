@@ -32,7 +32,8 @@ install:
   #- composer dump-autoload
 
 script:
-  - composer run phpunit -- --coverage-clover ./tests/logs/clover.xml
+  #- composer run phpunit -- --coverage-clover ./tests/logs/clover.xml
+  - composer run phpunit
   - composer run phpcs
   - composer run phpmd
   - composer run phpcpd
