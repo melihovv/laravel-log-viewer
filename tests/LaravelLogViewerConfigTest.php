@@ -3,8 +3,6 @@
 namespace Melihovv\LaravelLogViewer\Tests;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use InvalidArgumentException;
 use Melihovv\LaravelLogViewer\Facades\LaravelLogViewer as LaravelLogViewerFacade;
 use Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider;
 use Orchestra\Testbench\TestCase;
