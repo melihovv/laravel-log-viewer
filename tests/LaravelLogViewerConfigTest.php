@@ -28,6 +28,6 @@ class LaravelLogViewerConfigTest extends TestCase
 
     public function testItSetsBaseDirToDefaultLaravelLogsDir()
     {
-        $this->assertEquals(storage_path('logs'), \LogViewer::getBaseDirectory());
+        $this->assertEquals(realpath(storage_path('logs')), \LogViewer::getBaseDirectory());
     }
 }

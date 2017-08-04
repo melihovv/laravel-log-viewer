@@ -64,8 +64,8 @@ class LaravelLogViewer
      */
     public function __construct($baseDir, $maxFileSize)
     {
-        $this->baseDir = $baseDir;
-        $this->currentDir = $baseDir;
+        $this->baseDir = realpath($baseDir);
+        $this->currentDir = $this->baseDir;
         $this->maxFileSize = $maxFileSize;
     }
 
