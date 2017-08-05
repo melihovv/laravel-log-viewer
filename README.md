@@ -56,6 +56,10 @@ If you want customize package view
 php artisan vendor:publish --tag=views
 ```
 
+## Security
+
+If you discover any security related issues, please email amelihovv@ya.ru instead of using the issue tracker.
+
 ## Credits
 
 - [Alexander Melihov](https://github.com/melihovv)
