@@ -10,6 +10,7 @@
     "laravel",
     "lumen"
   ],
+  "type": "library",
   "authors": [
     {
       "name": "Alexander Melihov",
