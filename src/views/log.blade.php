@@ -110,7 +110,7 @@
                     <tbody>
                     @foreach($logs as $log)
                         <tr>
-                            <td class="text-{{ $log->levelClass }}}">
+                            <td class="text-{{ $log->levelClass }}">
                                 <span class="glyphicon glyphicon-{{ $log->levelImg }}-sign"
                                       aria-hidden="true"></span>
                                 &nbsp;{{ $log->level }}
