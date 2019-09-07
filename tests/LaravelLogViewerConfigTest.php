@@ -2,7 +2,6 @@
 
 namespace Melihovv\LaravelLogViewer\Tests;
 
-use Illuminate\Support\Facades\Config;
 use Melihovv\LaravelLogViewer\Facades\LaravelLogViewer as LaravelLogViewerFacade;
 use Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider;
 use Orchestra\Testbench\TestCase;
