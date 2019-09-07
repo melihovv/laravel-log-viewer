@@ -13,14 +13,14 @@ class LaravelLogViewerTest extends TestCase
 {
     const BASEDIR = __DIR__ . DIRECTORY_SEPARATOR . 'logs';
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
         File::makeDirectory(self::BASEDIR);
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         File::deleteDirectory(self::BASEDIR);
 
