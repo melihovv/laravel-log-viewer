@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class LaravelLogViewer
+class LogViewer
 {
     /**
      * Base directory.

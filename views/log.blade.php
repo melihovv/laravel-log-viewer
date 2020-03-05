@@ -93,7 +93,11 @@
         </div>
 
         <div class="col-sm-9 col-md-10 table-container">
-            @if ($logs === null)
+            @if ($error)
+                <div>
+                    You specified invalid path. Try go to the <a href="{{ url()->current() }}">beginning</a>.
+                </div>
+            @elseif ($logs === null)
                 <div>
                     File is too big, please download it.
                 </div>
@@ -130,7 +134,7 @@
                 </table>
             @endif
 
-            @if ($currentFile)
+            @if (!$error && $currentFile)
                 <div>
                     <a href="?file={{ base64_encode($currentFile) }}&download=1">
                         <span class="glyphicon glyphicon-download-alt"></span>
