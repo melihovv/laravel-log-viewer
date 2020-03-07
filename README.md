@@ -1,7 +1,7 @@
 Laravel log viewer
 ==================
 
-![GitHub Workflow Status](https://github.com/melihovv/eloquent-presence-verifier/workflows/Run%20tests/badge.svg)
+![GitHub Workflow Status](https://github.com/melihovv/laravel-log-viewer/workflows/Run%20tests/badge.svg)
 [![styleci](https://styleci.io/repos/78041678/shield)](https://styleci.io/repos/78041678)
 
 [![Packagist](https://img.shields.io/packagist/v/melihovv/laravel-log-viewer.svg)](https://packagist.org/packages/melihovv/laravel-log-viewer)
