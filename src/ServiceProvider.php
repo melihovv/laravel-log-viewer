@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Config;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    const CONFIG_PATH = __DIR__ . '/../config/log-viewer.php';
+    const CONFIG_PATH = __DIR__.'/../config/log-viewer.php';
 
-    const VIEWS_PATH = __DIR__ . '/../views';
+    const VIEWS_PATH = __DIR__.'/../views';
 
     public function boot()
     {
@@ -19,8 +19,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'config');
 
         $this->publishes([
-            self::VIEWS_PATH =>
-                resource_path('views/vendor/log-viewer'),
+            self::VIEWS_PATH => resource_path('views/vendor/log-viewer'),
         ], 'views');
     }
 
