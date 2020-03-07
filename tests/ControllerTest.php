@@ -50,7 +50,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_shows_logs_page_when_there_are_no_log_files()
+    public function it_shows_logs_page_when_there_are_no_log_files()
     {
         $this->visit('/logs')
             ->assertResponseOk()
@@ -62,7 +62,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_shows_logs_page_when_there_are_log_files()
+    public function it_shows_logs_page_when_there_are_log_files()
     {
         File::put($this->getBaseDir().'/laravel.log', '
 [2017-01-04 05:22:25] production.ERROR: hello1 in Main.php:48
@@ -84,7 +84,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_shows_logs_page_with_selected_log_file()
+    public function it_shows_logs_page_with_selected_log_file()
     {
         File::put($this->getBaseDir().'/laravel.log', '
 [2017-01-04 05:22:24] testing.INFO: hello1 in Main.php:48
@@ -110,7 +110,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_shows_logs_page_inside_specified_directory()
+    public function it_shows_logs_page_inside_specified_directory()
     {
         File::put($this->getBaseDir().'/laravel.log', '
 [2017-01-04 05:22:24] testing.INFO: hello1 in Main.php:48
@@ -132,7 +132,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_shows_logs_page_with_selected_log_file_inside_specified_directory()
+    public function it_shows_logs_page_with_selected_log_file_inside_specified_directory()
     {
         File::put($this->getBaseDir().'/laravel.log', '
 [2017-01-04 05:22:24] testing.INFO: hello1 in Main.php:48
@@ -159,7 +159,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_deletes_specified_file()
+    public function it_deletes_specified_file()
     {
         File::makeDirectory($this->getBaseDir().'/directory1');
         File::put($this->getBaseDir().'/directory1/laravel3.log', '');
@@ -172,7 +172,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_downloads_specified_file()
+    public function it_downloads_specified_file()
     {
         File::makeDirectory($this->getBaseDir().'/directory1');
         File::put($this->getBaseDir().'/directory1/laravel3.log', '');
@@ -196,7 +196,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_show_file_which_exceed_size_limit_in_config()
+    public function it_does_not_show_file_which_exceed_size_limit_in_config()
     {
         $this->app['config']->set('log-viewer.max_file_size', 10);
         File::put($this->getBaseDir().'/laravel3.log', str_repeat('A', 11));
@@ -209,7 +209,7 @@ class ControllerTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_show_files_outside_base_directory()
+    public function it_does_not_show_files_outside_base_directory()
     {
         File::put($this->getBaseDir().'/../some-secret-file', 'SECRET!!!');
 
