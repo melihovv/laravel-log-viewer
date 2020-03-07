@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-class LaravelLogViewer
+class LogViewer
 {
     /**
      * Base directory.
@@ -90,7 +90,7 @@ class LaravelLogViewer
 
         preg_match_all($pattern, $fileContent, $rows);
 
-        if (!is_array($rows) || count($rows) === 0) {
+        if (! is_array($rows) || count($rows) === 0) {
             return [];
         }
 
@@ -100,12 +100,12 @@ class LaravelLogViewer
         foreach ($rows as $row) {
             preg_match(
                 "/^\\[($datePattern)\\].*?(\\w+)\\."
-                . '([A-Z]+): (.*?)( in .*?:[0-9]+)?$/',
+                .'([A-Z]+): (.*?)( in .*?:[0-9]+)?$/',
                 $row,
                 $matches
             );
 
-            if (!isset($matches[4])) {
+            if (! isset($matches[4])) {
                 continue;
             }
 
@@ -137,7 +137,7 @@ class LaravelLogViewer
      */
     public function getCurrentDirectoryContent()
     {
-        $content = File::glob($this->currentDir . DIRECTORY_SEPARATOR . '*');
+        $content = File::glob($this->currentDir.DIRECTORY_SEPARATOR.'*');
 
         $content = array_map(function ($item) {
             return (object) [
@@ -267,7 +267,7 @@ class LaravelLogViewer
      */
     protected function checkIfPathInBaseDir($path)
     {
-        if (!Str::startsWith($path, $this->baseDir)) {
+        if (! Str::startsWith($path, $this->baseDir)) {
             throw new InvalidArgumentException(
                 "Passed directory is not in base directory $this->baseDir"
             );
@@ -305,7 +305,7 @@ class LaravelLogViewer
             return DIRECTORY_SEPARATOR;
         }
 
-        $path = realpath($this->currentDir . DIRECTORY_SEPARATOR . '..');
+        $path = realpath($this->currentDir.DIRECTORY_SEPARATOR.'..');
 
         return $this->getPathRelativeToBaseDir($path) ?: DIRECTORY_SEPARATOR;
     }

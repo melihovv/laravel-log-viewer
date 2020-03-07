@@ -5,43 +5,46 @@ namespace Melihovv\LaravelLogViewer\Tests;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use InvalidArgumentException;
-use Melihovv\LaravelLogViewer\Facades\LaravelLogViewer as LaravelLogViewerFacade;
-use Melihovv\LaravelLogViewer\LaravelLogViewerServiceProvider;
+use Melihovv\LaravelLogViewer\Facades\LogViewer as LogViewerFacade;
+use Melihovv\LaravelLogViewer\ServiceProvider;
 use Orchestra\Testbench\TestCase;
 
-class LaravelLogViewerTest extends TestCase
+class LogViewerTest extends TestCase
 {
-    const BASEDIR = __DIR__ . DIRECTORY_SEPARATOR . 'logs';
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-
-        File::makeDirectory(self::BASEDIR);
-    }
-
-    protected function tearDown() : void
-    {
-        File::deleteDirectory(self::BASEDIR);
-
-        parent::tearDown();
-    }
-
     protected function getPackageProviders($app)
     {
-        return [LaravelLogViewerServiceProvider::class];
+        return [ServiceProvider::class];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'LogViewer' => LaravelLogViewerFacade::class,
+            'LogViewer' => LogViewerFacade::class,
         ];
     }
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('laravel-log-viewer.base_dir', self::BASEDIR);
+        $app['config']->set('log-viewer.base_dir', $this->getBaseDir());
+    }
+
+    private function getBaseDir(): string
+    {
+        return __DIR__.DIRECTORY_SEPARATOR.'logs';
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        File::makeDirectory($this->getBaseDir());
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        File::deleteDirectory($this->getBaseDir());
     }
 
     /**
@@ -49,16 +52,17 @@ class LaravelLogViewerTest extends TestCase
      *
      * @param callable $setupCb
      * @param callable $assertCb
+     * @test
      */
-    public function testGetLogsFromCurrentFile(
+    public function get_logs_from_current_file(
         callable $setupCb,
         callable $assertCb
     ) {
-        File::put(self::BASEDIR . '/laravel.log', '');
+        File::put($this->getBaseDir().'/laravel.log', '');
 
         $setupCb($this);
 
-        $logs = \LogViewer::getLogsFromCurrentFile();
+        $logs = LogViewerFacade::getLogsFromCurrentFile();
 
         $assertCb($this, $logs);
     }
@@ -70,15 +74,15 @@ class LaravelLogViewerTest extends TestCase
                 function ($testcase) {
                 },
                 function ($testcase) {
-                    $testcase->assertEquals([], \LogViewer::getLogsFromCurrentFile());
+                    $testcase->assertEquals([], LogViewerFacade::getLogsFromCurrentFile());
                 },
             ],
             'file size is more than max file size' => [
                 function ($testcase) {
-                    \LogViewer::setCurrentFile('/laravel.log');
+                    LogViewerFacade::setCurrentFile('/laravel.log');
                     File::shouldReceive('size')
                         ->andReturn(
-                            Config::get('laravel-log-viewer.max_file_size') + 1
+                            Config::get('log-viewer.max_file_size') + 1
                         );
                     File::getFacadeRoot()->makePartial();
                 },
@@ -88,8 +92,8 @@ class LaravelLogViewerTest extends TestCase
             ],
             'success' => [
                 function ($testcase) {
-                    \LogViewer::setCurrentFile('/laravel.log');
-                    \File::append(self::BASEDIR . '/laravel.log', <<<'HERE'
+                    LogViewerFacade::setCurrentFile('/laravel.log');
+                    \File::append($this->getBaseDir().'/laravel.log', <<<'HERE'
 [2017-01-04 05:21:25] local.INFO: hi
 not match
 [2017-01-04 05:22:25] production.ERROR: ho in Main.php:48
@@ -126,14 +130,15 @@ HERE
      * @param callable $setupCb
      * @param array    $expected
      * @dataProvider getCurrentDirectoryContentProvider
+     * @test
      */
-    public function testGetCurrentDirectoryContent(
+    public function get_current_directory_content(
         callable $setupCb,
         array $expected
     ) {
         $setupCb();
 
-        $content = \LogViewer::getCurrentDirectoryContent();
+        $content = LogViewerFacade::getCurrentDirectoryContent();
 
         $this->assertEquals($expected, $content);
     }
@@ -148,25 +153,25 @@ HERE
             ],
             'dir with files and subdir' => [
                 function () {
-                    \File::put(self::BASEDIR . '/log1.txt', '');
-                    \File::put(self::BASEDIR . '/log2.txt', '');
-                    \File::makeDirectory(self::BASEDIR . '/subfolder');
+                    \File::put($this->getBaseDir().'/log1.txt', '');
+                    \File::put($this->getBaseDir().'/log2.txt', '');
+                    \File::makeDirectory($this->getBaseDir().'/subfolder');
                 },
                 [
                     (object) [
-                        'path' => DIRECTORY_SEPARATOR . 'log1.txt',
+                        'path' => DIRECTORY_SEPARATOR.'log1.txt',
                         'name' => 'log1.txt',
                         'isFile' => true,
                         'isDir' => false,
                     ],
                     (object) [
-                        'path' => DIRECTORY_SEPARATOR . 'log2.txt',
+                        'path' => DIRECTORY_SEPARATOR.'log2.txt',
                         'name' => 'log2.txt',
                         'isFile' => true,
                         'isDir' => false,
                     ],
                     (object) [
-                        'path' => DIRECTORY_SEPARATOR . 'subfolder',
+                        'path' => DIRECTORY_SEPARATOR.'subfolder',
                         'name' => 'subfolder',
                         'isFile' => false,
                         'isDir' => true,
@@ -181,15 +186,16 @@ HERE
      * @param string   $currentDir
      * @param callable $assertCb
      * @dataProvider setCurrentDirectoryProvider
+     * @test
      */
-    public function testSetCurrentDirectory(
+    public function set_current_directory(
         callable $setupCb,
         $currentDir,
         callable $assertCb
     ) {
         $setupCb($this);
 
-        \LogViewer::setCurrentDirectory($currentDir);
+        LogViewerFacade::setCurrentDirectory($currentDir);
 
         $assertCb($this);
     }
@@ -199,21 +205,21 @@ HERE
         return [
             'success' => [
                 function ($testcase) {
-                    \File::makeDirectory(self::BASEDIR . '/subfolder');
+                    \File::makeDirectory($this->getBaseDir().'/subfolder');
                 },
                 '/subfolder',
                 function ($testcase) {
                     $testcase->assertEquals(
-                        self::BASEDIR . DIRECTORY_SEPARATOR . 'subfolder',
-                        \LogViewer::getCurrentDirectory()
+                        $this->getBaseDir().DIRECTORY_SEPARATOR.'subfolder',
+                        LogViewerFacade::getCurrentDirectory()
                     );
                 },
             ],
             'directory is not inside base directory' => [
                 function ($testcase) {
-                    $baseDir = self::BASEDIR . DIRECTORY_SEPARATOR . 'newBaseDir';
+                    $baseDir = $this->getBaseDir().DIRECTORY_SEPARATOR.'newBaseDir';
                     \File::makeDirectory($baseDir);
-                    \LogViewer::setBaseDirectory($baseDir);
+                    LogViewerFacade::setBaseDirectory($baseDir);
 
                     \File::makeDirectory("$baseDir/../notSubFolder");
 
@@ -239,12 +245,13 @@ HERE
      * @param string   $currentFile
      * @param callable $assertCb
      * @dataProvider setCurrentFileProvider
+     * @test
      */
-    public function testSetCurrentFile($setupCb, $currentFile, $assertCb)
+    public function set_current_file($setupCb, $currentFile, $assertCb)
     {
         $setupCb($this);
 
-        \LogViewer::setCurrentFile($currentFile);
+        LogViewerFacade::setCurrentFile($currentFile);
 
         $assertCb($this);
     }
@@ -254,43 +261,43 @@ HERE
         return [
             'success' => [
                 function ($testcase) {
-                    File::put(self::BASEDIR . '/log.txt', '');
+                    File::put($this->getBaseDir().'/log.txt', '');
                 },
                 '/log.txt',
                 function ($testcase) {
                     $testcase->assertEquals(
-                        self::BASEDIR . DIRECTORY_SEPARATOR . 'log.txt',
-                        \LogViewer::getCurrentFile()
+                        $this->getBaseDir().DIRECTORY_SEPARATOR.'log.txt',
+                        LogViewerFacade::getCurrentFile()
                     );
                     $testcase->assertEquals(
-                        self::BASEDIR,
-                        \LogViewer::getCurrentDirectory()
+                        $this->getBaseDir(),
+                        LogViewerFacade::getCurrentDirectory()
                     );
                 },
             ],
             'current directory must be directory of current file' => [
                 function ($testcase) {
-                    File::makeDirectory(self::BASEDIR . '/subfolder');
-                    File::put(self::BASEDIR . '/subfolder/log.txt', '');
+                    File::makeDirectory($this->getBaseDir().'/subfolder');
+                    File::put($this->getBaseDir().'/subfolder/log.txt', '');
                 },
                 '/subfolder/log.txt',
                 function ($testcase) {
                     $testcase->assertEquals(
-                        self::BASEDIR . DIRECTORY_SEPARATOR . 'subfolder'
-                        . DIRECTORY_SEPARATOR . 'log.txt',
-                        \LogViewer::getCurrentFile()
+                        $this->getBaseDir().DIRECTORY_SEPARATOR.'subfolder'
+                        .DIRECTORY_SEPARATOR.'log.txt',
+                        LogViewerFacade::getCurrentFile()
                     );
                     $testcase->assertEquals(
-                        self::BASEDIR . DIRECTORY_SEPARATOR . 'subfolder',
-                        \LogViewer::getCurrentDirectory()
+                        $this->getBaseDir().DIRECTORY_SEPARATOR.'subfolder',
+                        LogViewerFacade::getCurrentDirectory()
                     );
                 },
             ],
             'file is not inside base directory' => [
                 function ($testcase) {
-                    $baseDir = self::BASEDIR . DIRECTORY_SEPARATOR . 'newBaseDir';
+                    $baseDir = $this->getBaseDir().DIRECTORY_SEPARATOR.'newBaseDir';
                     File::makeDirectory($baseDir);
-                    \LogViewer::setBaseDirectory($baseDir);
+                    LogViewerFacade::setBaseDirectory($baseDir);
 
                     File::put("$baseDir/../notInSubfolder.log", '');
 
@@ -311,23 +318,25 @@ HERE
         ];
     }
 
-    public function testGetCurrentFileRelativeToBaseDir()
+    /** @test */
+    public function get_current_file_relative_to_base_dir()
     {
-        File::put(self::BASEDIR . '/laravel.log', '');
-        \LogViewer::setCurrentFile('/laravel.log');
+        File::put($this->getBaseDir().'/laravel.log', '');
+        LogViewerFacade::setCurrentFile('/laravel.log');
         $this->assertEquals(
-            DIRECTORY_SEPARATOR . 'laravel.log',
-            \LogViewer::getCurrentFileRelativeToBaseDir()
+            DIRECTORY_SEPARATOR.'laravel.log',
+            LogViewerFacade::getCurrentFileRelativeToBaseDir()
         );
     }
 
-    public function testGetCurrentDirectoryRelativeToBaseDir()
+    /** @test */
+    public function get_current_directory_relative_to_base_dir()
     {
-        File::makeDirectory(self::BASEDIR . '/subdir');
-        \LogViewer::setCurrentDirectory('/subdir');
+        File::makeDirectory($this->getBaseDir().'/subdir');
+        LogViewerFacade::setCurrentDirectory('/subdir');
         $this->assertEquals(
-            DIRECTORY_SEPARATOR . 'subdir',
-            \LogViewer::getCurrentDirectoryRelativeToBaseDir()
+            DIRECTORY_SEPARATOR.'subdir',
+            LogViewerFacade::getCurrentDirectoryRelativeToBaseDir()
         );
     }
 
@@ -335,8 +344,9 @@ HERE
      * @dataProvider getRelativePathToCurrentDirectoryParentProvider
      *
      * @param callable $assertCb
+     * @test
      */
-    public function testGetRelativePathToCurrentDirectoryParent(
+    public function get_relative_path_to_current_directory_parent(
         callable $assertCb
     ) {
         $assertCb($this);
@@ -349,29 +359,29 @@ HERE
                 function ($testcase) {
                     $testcase->assertEquals(
                         DIRECTORY_SEPARATOR,
-                        \LogViewer::getRelativePathToCurrentDirectoryParent()
+                        LogViewerFacade::getRelativePathToCurrentDirectoryParent()
                     );
                 },
             ],
             'cur dir does not equals base dir: subdir' => [
                 function ($testcase) {
-                    File::makeDirectory(self::BASEDIR . '/subdir');
-                    \LogViewer::setCurrentDirectory('/subdir');
+                    File::makeDirectory($this->getBaseDir().'/subdir');
+                    LogViewerFacade::setCurrentDirectory('/subdir');
 
                     $testcase->assertEquals(
                         DIRECTORY_SEPARATOR,
-                        \LogViewer::getRelativePathToCurrentDirectoryParent()
+                        LogViewerFacade::getRelativePathToCurrentDirectoryParent()
                     );
                 },
             ],
             'cur dir does not equals base dir: subsubdir' => [
                 function ($testcase) {
-                    File::makeDirectory(self::BASEDIR . '/subdir/subsubdir', 0755, true);
-                    \LogViewer::setCurrentDirectory('/subdir/subsubdir');
+                    File::makeDirectory($this->getBaseDir().'/subdir/subsubdir', 0755, true);
+                    LogViewerFacade::setCurrentDirectory('/subdir/subsubdir');
 
                     $testcase->assertEquals(
-                        DIRECTORY_SEPARATOR . 'subdir',
-                        \LogViewer::getRelativePathToCurrentDirectoryParent()
+                        DIRECTORY_SEPARATOR.'subdir',
+                        LogViewerFacade::getRelativePathToCurrentDirectoryParent()
                     );
                 },
             ],
@@ -382,8 +392,9 @@ HERE
      * @dataProvider isCurrentDirectoryBaseProvider
      *
      * @param callable $assertCb
+     * @test
      */
-    public function testIsCurrentDirectoryBase(callable $assertCb)
+    public function is_current_directory_base(callable $assertCb)
     {
         $assertCb($this);
     }
@@ -393,15 +404,15 @@ HERE
         return [
             'true' => [
                 function ($testcase) {
-                    $testcase->assertTrue(\LogViewer::isCurrentDirectoryBase());
+                    $testcase->assertTrue(LogViewerFacade::isCurrentDirectoryBase());
                 },
             ],
             'false' => [
                 function ($testcase) {
-                    File::makeDirectory(self::BASEDIR . '/subdir');
-                    \LogViewer::setCurrentDirectory('/subdir');
+                    File::makeDirectory($this->getBaseDir().'/subdir');
+                    LogViewerFacade::setCurrentDirectory('/subdir');
 
-                    $testcase->assertFalse(\LogViewer::isCurrentDirectoryBase());
+                    $testcase->assertFalse(LogViewerFacade::isCurrentDirectoryBase());
                 },
             ],
         ];
@@ -412,14 +423,15 @@ HERE
      *
      * @param callable $setupCb
      * @param callable $assertCb
+     * @test
      */
-    public function testGetParentDirectories(
+    public function get_parent_directories(
         callable $setupCb,
         callable $assertCb
     ) {
         $setupCb($this);
 
-        $dirs = \LogViewer::getParentDirectories();
+        $dirs = LogViewerFacade::getParentDirectories();
 
         $assertCb($this, $dirs);
     }
@@ -436,8 +448,8 @@ HERE
             ],
             'current directory is one level down of base directory' => [
                 function ($testcase) {
-                    File::makeDirectory(self::BASEDIR . '/subdir');
-                    \LogViewer::setCurrentDirectory('/subdir');
+                    File::makeDirectory($this->getBaseDir().'/subdir');
+                    LogViewerFacade::setCurrentDirectory('/subdir');
                 },
                 function ($testcase, $dirs) {
                     $testcase->assertEquals([
@@ -447,13 +459,13 @@ HERE
             ],
             'current directory is two level down of base directory' => [
                 function ($testcase) {
-                    File::makeDirectory(self::BASEDIR . '/subdir/subsubdir', 0755, true);
-                    \LogViewer::setCurrentDirectory('/subdir/subsubdir');
+                    File::makeDirectory($this->getBaseDir().'/subdir/subsubdir', 0755, true);
+                    LogViewerFacade::setCurrentDirectory('/subdir/subsubdir');
                 },
                 function ($testcase, $dirs) {
                     $testcase->assertEquals([
                         DIRECTORY_SEPARATOR,
-                        DIRECTORY_SEPARATOR . 'subdir',
+                        DIRECTORY_SEPARATOR.'subdir',
                     ], $dirs);
                 },
             ],

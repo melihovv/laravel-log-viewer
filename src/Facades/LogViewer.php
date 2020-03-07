@@ -4,7 +4,7 @@ namespace Melihovv\LaravelLogViewer\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class LaravelLogViewer extends Facade
+class LogViewer extends Facade
 {
     protected static function getFacadeAccessor()
     {

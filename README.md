@@ -1,9 +1,8 @@
 Laravel log viewer
 ==================
 
-[![Build Status](https://travis-ci.org/melihovv/laravel-log-viewer.svg?branch=master)](https://travis-ci.org/melihovv/laravel-log-viewer)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/melihovv/laravel-log-viewer/run-php-tests?label=Tests)
 [![styleci](https://styleci.io/repos/78041678/shield)](https://styleci.io/repos/78041678)
-[![Coverage Status](https://coveralls.io/repos/github/melihovv/laravel-log-viewer/badge.svg?branch=master)](https://coveralls.io/github/melihovv/laravel-log-viewer?branch=master)
 
 [![Packagist](https://img.shields.io/packagist/v/melihovv/laravel-log-viewer.svg)](https://packagist.org/packages/melihovv/laravel-log-viewer)
 [![Packagist](https://poser.pugx.org/melihovv/laravel-log-viewer/d/total.svg)](https://packagist.org/packages/melihovv/laravel-log-viewer)
@@ -28,23 +27,23 @@ composer require melihovv/laravel-log-viewer
 ```
 
 Add a route in your web routes file:
-```php 
-Route::get('logs', '\Melihovv\LaravelLogViewer\LaravelLogViewerController@index');
+```php
+Route::get('logs', '\Melihovv\LaravelLogViewer\Controller@index');
 ```
 
-Go to `http://myapp/logs`
+Go to `http://localhost:8000/logs`
 
 Additional
 ----------
 
 Publish package config if you want customize default values
 ```
-php artisan vendor:publish --tag=config
+php artisan vendor:publish --provider="Melihovv\LaravelLogViewerController\ServiceProvider" --tag=config
 ```
 
 If you want customize package view
 ```
-php artisan vendor:publish --tag=views
+php artisan vendor:publish --provider="Melihovv\LaravelLogViewerController\ServiceProvider" --tag=views
 ```
 
 ## Security
