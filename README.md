@@ -36,14 +36,9 @@ Go to `http://localhost:8000/logs`
 Additional
 ----------
 
-Publish package config if you want customize default values
+Publish package config if you want to customize default config values or template
 ```
-php artisan vendor:publish --provider="Melihovv\LaravelLogViewerController\ServiceProvider" --tag=config
-```
-
-If you want customize package view
-```
-php artisan vendor:publish --provider="Melihovv\LaravelLogViewerController\ServiceProvider" --tag=views
+php artisan vendor:publish --provider="Melihovv\LaravelLogViewerController\ServiceProvider"
 ```
 
 ## Security
